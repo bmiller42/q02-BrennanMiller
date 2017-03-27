@@ -39,6 +39,12 @@ TEST(PiezasTest, testDropPiece)
 	ASSERT_TRUE(board.dropPiece(1) == O);
 }
 
+TEST(PiezasTest, testInvalidDropPiece)
+{
+	Piezas board;
+	ASSERT_TRUE(board.dropPiece(4) == Invalid);
+}
+
 TEST(PiezasTest, testIfFullColumn)
 {
 	Piezas board;
@@ -83,6 +89,26 @@ TEST(PiezasTest, testOwinner)
 	ASSERT_TRUE(board.gameState() == O);
 	
 }	
+
+TEST(PiezasTest, testXwinner)
+{
+	Piezas board;
+	board.dropPiece(3);
+	board.dropPiece(3);
+	board.dropPiece(2);
+	board.dropPiece(0);
+	board.dropPiece(1);
+	board.dropPiece(2);
+	board.dropPiece(1);
+	board.dropPiece(0);
+	board.dropPiece(3);
+	board.dropPiece(2);
+	board.dropPiece(0);
+	board.dropPiece(1);
+	ASSERT_TRUE(board.gameState() == X);
+	
+}	
+
 
 TEST(PiezasTest, testTie)
 {

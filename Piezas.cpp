@@ -72,7 +72,7 @@ Piece Piezas::dropPiece(int column)
 	else if(turn == O)
 		turn = X;
 
-	if(column > 3 && column < 0)
+	if(column > 3 || column < 0)
 	{
 		return invalid;
 	}
@@ -196,8 +196,7 @@ Piece Piezas::gameState()
 		return X;
 	else if(maxO > maxX)
 		return O;
-	else if(maxX == maxO)
+	else
 		return Blank;
 	
-	return Invalid;   //this should not happen
 }
