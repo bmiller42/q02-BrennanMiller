@@ -66,32 +66,32 @@ Piece Piezas::dropPiece(int column)
 	Piece blank = Blank;
 	Piece oldTurn = turn;
 	Piece invalid = Invalid;
+	
+	if(turn == X)
+		turn = O;
+	else if(turn == O)
+		turn = X;
 
 	if(column > 3 && column < 0)
 	{
 		return invalid;
 	}
-	else if(board[0][column] == Blank)
+	else if(board[2][column] == Blank)
 	{
-		board[0][column] = turn;	
+		board[2][column] = oldTurn;	
 	}
 	else if(board[1][column] == Blank)
 	{
-		board[1][column] = turn;
+		board[1][column] = oldTurn;
 	}
-	else if(board[2][column] == Blank)
+	else if(board[0][column] == Blank)
 	{
-		board[2][column] = turn;
+		board[0][column] = oldTurn;
 	}
 	else
 	{
 		return blank;
 	}
-
-	if(turn == X)
-		turn = O;
-	else if(turn == O)
-		turn = X;
 
 	return oldTurn;
 }
@@ -102,7 +102,10 @@ Piece Piezas::dropPiece(int column)
 **/
 Piece Piezas::pieceAt(int row, int column)
 {
-	cout << "from PieceAt function" << endl;
+	if(row == 2)
+		row = 0;
+	else if(row == 0)
+		row = 2;
 	if(row <= 2 && row >= 0 && column <= 3 && column >= 0)
 	{
 		return board[row][column];
@@ -125,5 +128,76 @@ Piece Piezas::pieceAt(int row, int column)
 **/
 Piece Piezas::gameState()
 {
-	return X;
+	Piece check = Invalid;
+	int countX = 1, countO = 1;
+	int maxX = 0, maxO = 0;
+
+	for(int i = 0; i < BOARD_ROWS; i++)
+	{
+		for(int j = 0; j < BOARD_COLS; j++)
+		{
+			if(board[i][j] == Blank)
+				return Invalid;
+			else if(board[i][j] == check)
+			{
+				if(check == X)
+				{
+					countX++;
+					if(countX > maxX)
+						maxX = countX;
+				}
+				else if(check == O)
+				{					
+					countO++;		
+					if(countO > maxO)
+						maxO = countO;
+				}
+			}
+			check = board[i][j];
+		}
+
+		check = Invalid;
+		countX = 1;
+		countO = 1;
+	}
+
+	
+	for(int i = 0; i < BOARD_COLS; i++)
+	{
+		for(int j = 0; j < BOARD_ROWS; j++)
+		{
+			if(board[j][i] == Blank)
+				return Invalid;
+			else if(board[j][i] == check)
+			{
+				if(check == X)
+				{
+					countX++;
+					if(countX > maxX)
+						maxX = countX;
+				}
+				else if(check == O)
+				{					
+					countO++;		
+					if(countO > maxO)
+						maxO = countO;
+				}
+			}
+			check = board[j][i];
+		}
+		check = Invalid;
+		countX = 1;
+		countO = 1;
+
+	}	
+
+
+	if(maxX > maxO)	
+		return X;
+	else if(maxO > maxX)
+		return O;
+	else if(maxX == maxO)
+		return Blank;
+	
+	return Invalid;   //this should not happen
 }
