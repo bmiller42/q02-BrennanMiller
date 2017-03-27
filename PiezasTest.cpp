@@ -18,3 +18,47 @@ TEST(PiezasTest, sanityCheck)
 {
 	ASSERT_TRUE(true);
 }
+
+TEST(PiezasTest, testNewBlankBoard)
+{
+	Piezas board;
+	ASSERT_TRUE(board.pieceAt(0,0) == Blank);
+}
+
+TEST(PiezasTest, testDropPiece)
+{
+	Piezas board;
+	board.dropPiece(1);
+	ASSERT_TRUE(board.dropPiece(1) == O);
+}
+
+/*TEST(PiezasTest, testIfBlank)
+{
+	Piezas board;
+	
+}
+
+TEST(PiezasTest, testIfBlank)
+{
+	Piezas board;
+	
+}
+
+TEST(PiezasTest, testIfBlank)
+{
+	Piezas board;
+	
+}*/
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,5 +1,9 @@
 #include "Piezas.h"
 #include <vector>
+#include <iostream>
+
+using namespace std;
+
 /** CLASS Piezas
  * Class for representing a Piezas vertical board, which is roughly based
  * on the game "Connect Four" where pieces are placed in a column and 
@@ -20,13 +24,34 @@
  * Constructor sets an empty board (default 3 rows, 4 columns) and 
  * specifies it is X's turn first
 **/
-Piezas::Piezas();
+Piezas::Piezas()
+{
+	board.resize(3);
+	for(int i = 0; i < BOARD_ROWS; i++)
+	{
+		board[i].resize(4);
+		for(int j = 0; j < BOARD_COLS; j++)
+		{
+			board[i][j] = Blank;	
+		}
+	}
+	turn = X;	
+}
 
 /**
  * Resets each board location to the Blank Piece value, with a board of the
  * same size as previously specified
 **/
-void Piezas::reset();
+void Piezas::reset()
+{
+	for(int i = 0; i < BOARD_ROWS; i++)
+	{
+		for(int j = 0; j < BOARD_COLS; j++)
+		{
+			board[i][j] = Blank;
+		}
+	}
+}
 
 /**
  * Places a piece of the current turn on the board, returns what
@@ -36,13 +61,58 @@ void Piezas::reset();
  * Out of bounds coordinates return the Piece Invalid value
  * Trying to drop a piece where it cannot be placed loses the player's turn
 **/ 
-Piece Piezas::dropPiece(int column);
+Piece Piezas::dropPiece(int column)
+{
+	Piece blank = Blank;
+	Piece oldTurn = turn;
+	Piece invalid = Invalid;
+
+	if(column > 3 && column < 0)
+	{
+		return invalid;
+	}
+	else if(board[0][column] == Blank)
+	{
+		board[0][column] = turn;	
+	}
+	else if(board[1][column] == Blank)
+	{
+		board[1][column] = turn;
+	}
+	else if(board[2][column] == Blank)
+	{
+		board[2][column] = turn;
+	}
+	else
+	{
+		return blank;
+	}
+
+	if(turn == X)
+		turn = O;
+	else if(turn == O)
+		turn = X;
+
+	return oldTurn;
+}
 
 /**
  * Returns what piece is at the provided coordinates, or Blank if there
  * are no pieces there, or Invalid if the coordinates are out of bounds
 **/
-Piece Piezas::pieceAt(int row, int column);
+Piece Piezas::pieceAt(int row, int column)
+{
+	cout << "from PieceAt function" << endl;
+	if(row <= 2 && row >= 0 && column <= 3 && column >= 0)
+	{
+		return board[row][column];
+	}
+	else
+	{
+		return Invalid;
+	}
+
+}
 
 /**
  * Returns which Piece has won, if there is a winner, Invalid if the game
@@ -53,4 +123,7 @@ Piece Piezas::pieceAt(int row, int column);
  * or horizontally. If both X's and O's have the same max number of pieces in a
  * line, it is a tie.
 **/
-Piece Piezas::gameState();
+Piece Piezas::gameState()
+{
+	return X;
+}
